@@ -27,7 +27,7 @@ public class GuestService {
         emailBody.append("<div style='max-width:600px; margin:auto; background-color:#ffffff; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1);'>");
 
         emailBody.append("<h2 style='color:#d6336c; text-align:center;'>Confirmações de Presença</h2>");
-        emailBody.append("<p>Olá Júlia,</p>");
+        emailBody.append("<p>Olá Julia,</p>");
         emailBody.append("<p>No dia <b>").append(LocalDate.now()).append("</b>, foram confirmadas as seguintes presenças para o evento de <b>10/10/2026</b>:</p>");
 
         emailBody.append("<ul style='list-style:none; padding-left:0;'>");
