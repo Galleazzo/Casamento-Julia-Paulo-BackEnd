@@ -14,7 +14,7 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4200", "https://juliapauloamor.vercel.app/")
+                        .allowedOrigins("http://localhost:4200", "https://juliapauloamor.vercel.app/", "https://www.odiafelizdejuliaepaulo.com.br/", "https://odiafelizdejuliaepaulo.com.br/")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
             }
         };
