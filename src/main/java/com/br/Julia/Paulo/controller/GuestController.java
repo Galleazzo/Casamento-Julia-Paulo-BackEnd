@@ -17,6 +17,7 @@ public class GuestController {
     @Autowired
     private GuestService service;
 
+
     @PostMapping
     public ResponseEntity<GuestsDto> confirmPresence(@RequestBody GuestsDto guestsDto) {
         return new ResponseEntity<>(this.service.confirmPresence(guestsDto), HttpStatus.ACCEPTED);
