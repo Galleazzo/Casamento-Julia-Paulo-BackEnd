@@ -28,11 +28,18 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<aws.serverless.version>2.1.5</aws.serverless.version>
 	</properties>
 	<dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws.serverless</groupId>
+            <artifactId>aws-serverless-java-container-springboot3</artifactId>
+            <version>${aws.serverless.version}</version>
         </dependency>
 
         <dependency>
@@ -57,9 +64,47 @@
 
 	<build>
 		<plugins>
+			<!-- Copy runtime dependencies into target/lib so they can be packaged in the Lambda zip -->
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.8.1</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}${file.separator}lib</outputDirectory>
+							<includeScope>runtime</includeScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Build the Lambda deployment package (classes at root + dependencies under lib/) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.7.1</version>
+				<executions>
+					<execution>
+						<id>zip-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<finalName>${project.artifactId}-${project.version}</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptors>
+								<descriptor>src${file.separator}assembly${file.separator}bin.xml</descriptor>
+							</descriptors>
+							<attach>false</attach>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
